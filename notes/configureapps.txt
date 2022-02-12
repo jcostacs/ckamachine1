@@ -1,0 +1,75 @@
+COMMANDS AND ARGUMENTS 
+
+
+ENTRYPOINT in dockerfile is the same as 
+command: ["sleep2.0"] in pod def file
+
+CMD in dockerfile is the same as 
+args:["10"] in pod def file 
+
+DOCKER POV
+the entry point for a container works as the default command when container is ran.
+CMD is the appended command to add to the entrypoint. 
+input in terminal command overwrites CMD 
+
+
+api...
+kind...
+metadata...
+spec:
+ containers:
+ - name: ubuntu-sleeper
+   image: ubuntu-sleeper
+  
+   command: ["sleep2.0"]
+   args: ["10"]
+   
+   
+   command overrides ENTRYPOINT in dockerfile
+   args overrides CMD 
+   
+   
+   
+   
+   ENVIRONMENT VAR
+   
+   PLAIN KEY VALUE                      
+spec:
+ containers:
+ - name: ubuntu-sleeper
+   image: ubuntu-sleeper
+   
+   env:
+   - name:
+     value: 
+     
+     CONFIG MAP
+     
+spec:
+ containers:
+ - name: ubuntu-sleeper
+   image: ubuntu-sleeper
+   
+   env:
+   - name:
+     valueFrom:
+       configMapKeyRef:
+       
+       
+       Secrets
+       
+       
+spec:
+ containers:
+ - name: ubuntu-sleeper
+   image: ubuntu-sleeper
+   
+   env:
+   - name:
+     valueFrom:
+       SecretKeyRef:
+          
+        
+     
+     
+     

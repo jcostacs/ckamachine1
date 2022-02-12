@@ -1,0 +1,12 @@
+Static POD
+
+Not dependent of the master node (sheduler and API). The kubelet on the worker node is what takes care of keeping that static pod
+alive. 
+ 
+yaml has to be on a specific path, configured in kubelet.service to create a static pod. Sheducler will ignore those yaml files
+singlehandedly by the kubelet. Only way to delete it is deleting the yaml file
+
+
+ps -aux | grep kubelet to find the config path
+
+kubectl run  --restart=Never --image=xxx --dry-run=client -o yaml --command -- sleep 1000 > path

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hw-deployment
+  labels:
+    app: hw
+    type: example-hw
+spec:
+  template:
+
+     metadata:
+       name: hw
+       labels:
+         type: test
+     spec:
+       containers:
+       - name: hw
+         image: k8s.gcr.io/echoserver:1.4
+
+  replicas: 4
+  selector:
+       matchLabels: 
+         type: test
+
+---
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: hw-service
+
+spec:
+  type: NodePort
+  ports:
+  - targetPort: 8080
+    port: 80
+    nodePort: 30010
+
+  selector:
+    type: test 
+
+
+
+# SERVICE SELECTOR HAS TO MATCH POD LABELS, NOT DEPLOYEMNTS 
+

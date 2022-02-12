@@ -1,0 +1,5 @@
+kubectl rollout status deployment/xxxx -> status
+
+kubectl rollout history deployment/xxx -> status
+
+kubectl rollout undo deployment/xxx -> rollback

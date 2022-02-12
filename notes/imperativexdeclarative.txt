@@ -1,0 +1,36 @@
+Imperative x Declarative
+IaC
+
+Imperative means that you specify what to do and how to do it, specifying
+the steps to reach a final goal
+
+Declarative means that you will only specify the final goal, and the way to 
+achieve that is handled by the infrastricture itself which decides the best
+path to do it
+
+
+Kubernetes 
+
+Imperative would be:
+ - exectuing kubectl commands such as run create expose edit scale set etc
+
+Declarative 
+ - using the configation files and use kuibetl apply to create, update or
+deleting an object
+
+
+EXAM TIPS
+
+USEFUL IMPERATIVE COMMANDS:
+
+kubectl run --image=nginx nginx -> creates pod with specified image
+
+kubectl create deployment --image=nginx nginx -> creates deployment with pods based on specified image
+
+kubectl expose deployment nginx --port 80 -> exposes created deployment port
+
+kubectl edit deployment nginx -> edits the current nginx deployment
+
+kubectl scale deployment nginx --replica=5 -> quick way to scale existing deployment
+
+

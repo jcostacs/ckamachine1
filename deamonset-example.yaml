@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Daemonset
+metadata:
+  name: example-daemonset
+  labels:
+    app: example-app
+spec:
+  template:
+
+     metadata:
+       name: nginx-example-pod
+       labels:
+         app: example-app
+    
+     spec:
+       containers:
+       - name: nginx
+         image: nginx
+  selector:
+       matchLabels: 
+         app: example-app
+
+# same as ReplicaSet or Deployment but kind changes

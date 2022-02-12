@@ -1,0 +1,36 @@
+Master nodes upgrade first than the worker nodes
+
+do not skip versions, one minor version at a time 
+
+
+
+kubeadm upgrade plan -> does not install or upgrade kubelets
+
+
+
+1 - update kubeadm -> apt-get upgrade -y kubeadm=X 
+
+kubeadm upgrade apply v1.X
+
+2 - upgrade kubelet on master node
+
+apt-get upgrade -y kubelet=X
+systemctl restart kubelet
+
+
+
+Worker nodes
+
+1 - kubectl drain node1
+
+ afterwards apt-get upgrade -y kubeadm=1.X
+            apt-get upgrade -y kubelet+1.X-2
+            
+            kubeadm upgrade node config --kubelet-version v1.X
+            systemctl restart kubelet
+            
+            kubectl uncordon node1
+            
+            
+            
+    

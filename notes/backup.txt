@@ -1,0 +1,11 @@
+Backup candidates:
+
+- resource configs
+- etcd cluster 
+- persistent storage
+
+RESOURCE CONFIGS
+
+query the kubeapi server
+
+kubectl get all -A -o yaml > all-deploy-services.yaml

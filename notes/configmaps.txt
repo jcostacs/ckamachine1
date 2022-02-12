@@ -1,0 +1,58 @@
+Create ConfigMap to automatically populate key value pairs for env vars.
+
+APP_COLOR: blue
+APP_MODE: prod
+
+1 - Create ConfigMap
+2 - inject into pods 
+
+
+Imperative way 
+
+kubect create configmap <config-name> --from-literal=<key>=<value>
+
+kubect create configmap <config-name> --from-file=<path-to-file>
+
+
+Declarative way 
+
+
+kubectl create -f 
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  
+data:
+  APP_COLOR: blue
+  APP_MODE: prod
+  
+  
+  
+  
+  
+  
+IN PODS
+
+
+
+spec:
+  containers:
+  - name:
+    image:
+    
+    ports:
+    
+     - containerPort:
+    
+    envFrom:
+      - configMapRef:
+          name: app-config
+
+
+
+
+
+

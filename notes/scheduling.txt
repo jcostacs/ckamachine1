@@ -1,0 +1,41 @@
+Scheduling
+
+
+MAN SCHEDULING
+
+
+nodeName not assigned by default. k8s adds it automatically. 
+
+Kube looks for the pods with NO nodeName assigned and then assigns it to
+the correct node name ( if they exist)
+
+if they dont exist, you need to specify nodeName field (on spec) at pod creation
+
+Manually assign schedules by specifying the nodeName. If its already created
+you need to create a binding oject and send a POST request to the pods Binding
+API. COnvert yaml to JSON
+
+
+
+LABELS N SELECTORS
+
+
+way of grouping stuff together based on properties and qualities
+define labels in  the metadata big section, such as:
+
+metadata:
+  labels:
+    app: app1
+    type: frontend
+
+to select a spefic label we use selectors. not only in manifests for deployments for example,
+but also while viewing them using kubectl
+
+kubectl get pods --selector app=app1
+
+annotations are used for metadata itself (info), such as build version, phone numbers etc
+
+
+MULTIPLE SCHEDULERS
+
+CP from etc/kubernenets/manifests ---- change name, port, leader-elect to false

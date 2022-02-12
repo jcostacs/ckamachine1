@@ -1,0 +1,27 @@
+Taints are for node configuration
+
+toleration is for pods
+
+Useful if we want to specify which taint accepts what tolerance.
+Taints tell the node to only accept the pods with some matching toleration. 
+
+Example: 
+
+TAINT 
+
+ key=value:effect
+
+kubectl taint nodes node-name key=value:effect NoSchecdule/NoExecute/PreferNoSchedule
+
+
+TOLERATIONS
+
+Need pod def file
+
+spec:
+
+  tolerations:
+    key: ""
+    operator: ""
+    value: ""
+    effect: ""

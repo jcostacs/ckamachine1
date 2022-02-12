@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+  labels:
+    app: example-app
+    type: example-service-to-deployment
+spec:
+  template:
+
+     metadata:
+       name: nginx-example-pod
+       labels:
+         app: example-app
+         type: example-service-to-deployment
+    
+     spec:
+       containers:
+       - name: nginx
+         image: nginx
+
+  replicas: 8
+  selector:
+       matchLabels: 
+         app: example-app
+         type: example-service-to-deployment

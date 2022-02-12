@@ -1,0 +1,21 @@
+NODE SELECTOR
+
+Specifies on the pod definition file the node that its supposed to run on:
+
+spec:
+
+  containers:
+
+
+  nodeSelector:
+      size: Large
+
+# The size: large <key: value> pair is a label on the node
+
+
+To label a node do: 
+
+kubectl label nodes <nodename> <label-key>=<label-value>
+
+ 
+HAS limitations. No conditions possible e.g LARGE OR MEDIUM 

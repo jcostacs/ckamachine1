@@ -1,0 +1,7 @@
+Daemonsets will generate a new pod across all nodes, so if a new node show up
+a new pod will automatically spawn in that node
+
+kube-proxy component (needed in all worker nodes) can be an example of a
+deamon set
+
+It schedules the pods using nodeAffinity 

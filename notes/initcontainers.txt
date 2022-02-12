@@ -1,0 +1,14 @@
+When a POD is first created, the initContainer is run, and the process in the initContainer must run to a 
+completion before the real container hosting the app starts
+
+can be more than 1. Run at a time in sequential order  
+
+
+spec:
+  containers:
+  - name:..
+    image:...
+
+  initContainers:
+  - name: asdadsa
+    image: asdada
