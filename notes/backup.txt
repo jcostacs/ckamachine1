@@ -19,7 +19,7 @@ location dir for data source --data-dir
 
 can also snapshot etc db
 
-1 - etcdcrl \ snapshot save snapshot.db
+1 - etcdcrl \ snapshot save /destination path/
 
 2 - ls
 
@@ -29,9 +29,11 @@ RESTORE
 
 1 - stop kube api - service kube-apiserver stop
 
-2 - etcdctl \ snapshot restore snapshot.db \ --data-dir /var/lib/etcd-backup -> to the backup file
+2 - etcdctl \ snapshot restore /destination-path-frombackup/ \ --data-dir /new-path-to-be-saved/ -> to the backup file
 
 3 - config etcd config file to use new --data-dir=/var/lib/etcd-backup
+
+4 - OR change etcd.yaml volume to point to the new --data-dir ON VOLUMES SECTION 
 
 4 - system daemon-reload
 
@@ -42,8 +44,9 @@ RESTORE
 
 some extra config might be needed
 TLS needs --cacert
---ceret
+--cacert
 --endpoints=[xxxx]
---key
+--key -> sv key
+--cert -> sv cert
 
 export ETCDCTL_API=3 -> need to make use of etcdctl depending on the version of the etcd db
