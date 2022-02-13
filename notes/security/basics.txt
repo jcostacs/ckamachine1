@@ -1,0 +1,61 @@
+Focus on kube-apiserver
+
+
+WHO CAN ACCESS - Authentication mechanisms
+
+ - Files - Username and pws
+ - "" - "" and Tokens
+ - Certs
+ - External Authentication providers such as LDAP
+ - Service accounts - for machines
+
+
+WHAT CAN THEY DO - Authorization mechanisms
+
+ - Role Based Access Controls (RBAC) -> users associated in groups that have different permissions ( just like DT)
+ - Authorized BAsed Acess Controls
+ - Node Authorization
+ - etc 
+
+
+
+TLS CERTS 
+
+Internal components talk to each other via the api server
+Every connection that goes through the api server is secured by TLS certificates encryption
+
+Network policies to restrict communications between apps on the cluster (across nodes) 
+
+ 
+
+
+BASIC AUTHENTICATION
+
+2 Types of Accounts
+
+ - Users - humans
+ - Service accounts - 3rd party integrations
+
+
+All User access is managed by the kube-apisv either from kubecetl or curl
+The apisv first Authenticates the user and afterwards processes it
+
+Different ways for the apisv to authenticate:
+
+ - Static PW file - not recommended if not encrypted at least
+ - Static Token File - same as above mechanism but uses Tokens instead of pw 
+                       command to be used is --token-auth-file=user-token-details.csv
+
+ - Certs
+ - Identity Services 
+
+Simplest way is to create user-details.sv file with user info
+
+pass the file as parameter int othe kube-apiserver.service
+
+--basic-auth-file=user-details.csv
+needs a restart
+
+IF by kubeadm
+
+put parameter on the kube api sv static pod def file
