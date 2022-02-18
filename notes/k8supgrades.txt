@@ -21,7 +21,7 @@ systemctl restart kubelet
 
 Worker nodes
 
-1 - kubectl drain node1
+1 - kubectl drain node1 - DONE ON THE MASTER NODE - after that ssh into the worker node
 
  afterwards apt-get upgrade -y kubeadm=1.X
             apt-get upgrade -y kubelet+1.X-2
