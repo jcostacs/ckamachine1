@@ -1,0 +1,27 @@
+Can use several tools. For example openssl
+
+
+
+We first need to create the local ca certificates by generateing a private key and an CSR
+
+1 - generate private key using - openssl genrsa -out ca.key
+
+2 - generate CSR - openssl req -new -key ca.key -subj .... 
+
+3 - Sign certs using - openssl x509 -req -in ca.csr -signkey ca
+
+
+
+
+CLIENT CERTS
+
+1 - same first step as above 
+
+2 - CSR as well with "/CN=kube-admin" - we can distinguish an admin from a general user by adding the 
+/O=system:masters paramter to the previous CN command. Its a group that k8s has that identifies admins
+by using this, then the admin cert will have the group in there, authenticaing themselves as admins
+
+3 - generate sign certificates using openssl x509 -req -in admin.csr -CA ca.crt -CAkey ca.key -out admin.crt
+
+we are signing the client cert with the CA cert and key pair, making it a valid cert 
+

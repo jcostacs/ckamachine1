@@ -1,0 +1,40 @@
+TLS certificates ensure that the communcation between two entities is secured. 
+
+For example when a user tries to  acesse a web server, TLS certs ensure that the communcation
+is encrypted, and the server is who says he is.
+
+Asymmetric encryption uses both a private and public key. Private key stays on the user
+ while the public anyone can have.
+
+you encrypt the data with the public key and only the private key can unlock it.
+
+public key is used to lock data for the private key to unlock it.
+
+
+
+SSH example
+
+ssh-keygen will generate two keys. the public key stays on the server where you want to ssh into
+
+secure the server by only be acessible (works as a lock then) with that public key
+
+add the public key on the sv with cat ~/.ssh/authorized_keys
+
+
+A certficate is sent by the server to the user and identifies the server has having the expected 
+public key
+
+
+most important part of a cert is who signed the cert. Thats what validades it
+
+CA stands for Certified Authority and is a recognized entity who signs the certificate
+
+web browsers check these certs 
+
+send a CSR ( Certificate Signing request) with openssl for example so that you can request the CAs to sign it
+
+CAs are authenticated by using private keys to public keys already built in the browsers
+
+
+the entire infrasctructure including the CA, the servers, the people, the processes  in charge of generating, distributing and
+maitaining certs is called Public Key Infrastucture (PKI) 

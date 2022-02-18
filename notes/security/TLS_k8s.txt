@@ -1,0 +1,38 @@
+In k8s the objective is for all servers to use sv certs and for all clients to use client 
+certs
+
+SERVER COMPONENTS
+
+kube-apiserver for example will need to generate a apiserver.crt and a apiserver.key
+aka a public and private key
+
+etcd server likewise
+
+kubelet server "
+
+
+CLIENT COMPONENTS
+
+Its us, admins that use kubectl or using the REST API
+
+admin user will need a client cert and private key
+
+kube-scheduler as well
+
+kube-controller-manager as well
+
+kube-proxy as well
+
+
+only kube-api server talks to etcd server (from etcd POV kube-apisv is a client)
+kube-api can use the same server certs or use new client certs to authenticate towards 
+etcd server
+
+kube-api sv also talks to kubelet server. Can also use the same server certs or create 
+client certs just to communicate with the kubelet.
+
+
+
+
+
+
