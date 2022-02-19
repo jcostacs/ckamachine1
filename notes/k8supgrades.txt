@@ -8,11 +8,11 @@ kubeadm upgrade plan -> does not install or upgrade kubelets
 
 
 
-1 - update kubeadm -> apt-get upgrade -y kubeadm=X 
+1 - update kubeadm -> apt-get upgrade -y kubeadm=X.X.X 
 
 kubeadm upgrade apply v1.X
 
-2 - upgrade kubelet on master node
+2 - upgrade kubelet on master node - if exists
 
 apt-get upgrade -y kubelet=X
 systemctl restart kubelet
