@@ -2,11 +2,11 @@ Can use several tools. For example openssl
 
 
 
-We first need to create the local ca certificates by generateing a private key and an CSR
+We first need to create the local ca certificates by generating a private key and an CSR
 
 1 - generate private key using - openssl genrsa -out ca.key
 
-2 - generate CSR - openssl req -new -key ca.key -subj .... 
+2 - generate CSR - openssl req -new -key ca.key -subj "/CN=KUBERNETES-CA" -out ca.csr.... 
 
 3 - Sign certs using - openssl x509 -req -in ca.csr -signkey ca
 
@@ -15,13 +15,90 @@ We first need to create the local ca certificates by generateing a private key a
 
 CLIENT CERTS
 
+
+ADMIN USER
+
+
 1 - same first step as above 
 
 2 - CSR as well with "/CN=kube-admin" - we can distinguish an admin from a general user by adding the 
 /O=system:masters paramter to the previous CN command. Its a group that k8s has that identifies admins
-by using this, then the admin cert will have the group in there, authenticaing themselves as admins
+By using this, the admin cert will have the group in there, authenticating themselves as admins.
 
-3 - generate sign certificates using openssl x509 -req -in admin.csr -CA ca.crt -CAkey ca.key -out admin.crt
+3 - generate sign certificates using - openssl x509 -req -in admin.csr -CA ca.crt -CAkey ca.key -out admin.crt
 
-we are signing the client cert with the CA cert and key pair, making it a valid cert 
+We are signing the client cert with the CA cert and key pair, making it a valid cert
 
+
+SERVER SIDE CERTS 
+
+ETCD 
+
+
+etcd config file has key and cert paths for server and peers
+
+
+
+KUBE API
+
+kube-api server is also known as kubernetes. Has to have a lot of names assigned to it, due to the many names that is often treated as
+
+
+1 - openssl genrsa -out apiserver.key 2048
+
+2 - openssl req -new -key apiserver.key -subj "/CN=kube-apiserver" -out apiserver.csr
+
+3 - need to create a openssl.cnf file to define all the alternative names that he kube-apiserver can have. Is passed on the the command above
+
+  openssl req -new -key apiserver.key -subj "/CN=kube-apiserver" -out apiserver.csr -confif openssl.cnf
+
+
+4 - openssl x509 -req -in apiserver.csr -CA ca.crt -CAkey ca.key -out apiserver.crt
+
+5 - these certs are then mapped on the kubeapi config file - both the server and client (to communicate with etcd and kubelet).
+
+   Here CA file needs to be passed on both server ofc and to client too etcd
+
+   server CA:        - --client-ca-file=/etc/kubernetes/pki/ca.crt
+   server certs:     - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt
+                     - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+
+   client-to-etcd certs: - --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt
+                         - --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt
+                         - --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key
+
+   client-to-kubelet certs: - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt
+                            - --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key
+
+
+KUBELET 
+
+
+1 - Once certs are created, just need to mapp them in the kubelet conifg gile
+
+kubelet also needs client certs to communicate to to the kube api
+
+
+
+HOW TO VIEW CERTS 
+
+
+1 - identify all the certs. Create a list with all of them
+
+2 - look first at kube-apiserver.yaml 
+
+3 - Decode the certs with
+
+    openssl x509 -in /etc/kubernetes/pki/apiserver/crt -text -noout
+
+    check the name (CN="") and alternative names 
+
+    Issuer look 
+
+
+
+ 4 - look at service logs to troubleshoot
+
+     journalctl -u etcd.service -l 
+
+     with kubeadm: kubectl logs etcd-master
