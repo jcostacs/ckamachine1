@@ -1,0 +1,45 @@
+Used to add new users to acess the cluster
+
+1 - Creates private key - openssl genrsa -out jane.key 2048
+
+2 - creates CSR for the k8s CA server to accept the CSR
+
+    openssl req -nre -key jane.key -subj "/CN=jane" -out jane.csr
+
+
+3 - Now we can create CSR object yaml to parse this csr file and then applying the resource
+
+    apiVersion: certificates.k8s.io/v1
+    kind: CertificateSigningRequest
+    metadata:
+      name: jane
+
+    spec:
+      groups:
+      - system:authenticated
+      usages:
+      - client auth
+
+      signerName: kubernetes.io/kube-apiserver-client -> mandatory for client certs
+
+      request: NEED TO base64 the original csr file
+
+
+4 - now the user has private and public key signed by the CA 
+
+5 - kube admin can approve these CSR
+    
+    kubectl certificate approve <name>
+
+    View cert: kubectl get csr jane -o yaml
+
+    certificate field needs decoding: echo "cert" | base64 --decode
+
+
+
+
+ Controller Manager component is the responsivel for certs operations
+
+ the controller manager yaml holds the CA cert and key on its commands
+
+ 
