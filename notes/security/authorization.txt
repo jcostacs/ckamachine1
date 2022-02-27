@@ -1,0 +1,29 @@
+Authorization 
+
+Def: Once a user has acess, what can they do
+
+
+Mechanisms:
+
+  node: NodeAuthorizer - kubelet uses this
+
+
+  Attribute Based Auth (ABAC): - Assosiate a user or group with a set of permissions 
+                               - Create policy file that specifies this
+
+
+
+  Role Based Auth (RBAC): Easier than ABAC. Instead of associating a user or group with a set of permissions, we give them a role. Hence this role has a set of permissions and then we associate the users or group with the role.
+
+
+  Webhook: useful to outsource all authorization mechanisms
+
+
+
+Modes:
+
+  - AlwaysAllow	- allows all requests
+  - AlwaysDeny - denies all requests
+
+
+  set as parameter in kube-apiserver yaml file
