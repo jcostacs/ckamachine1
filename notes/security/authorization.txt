@@ -10,6 +10,7 @@ Mechanisms:
 
   Attribute Based Auth (ABAC): - Assosiate a user or group with a set of permissions 
                                - Create policy file that specifies this
+ 					    - Difficult to manage 
 
 
 
@@ -20,10 +21,66 @@ Mechanisms:
 
 
 
-Modes:
+Authorization Modes:
 
   - AlwaysAllow	- allows all requests
   - AlwaysDeny - denies all requests
 
 
-  set as parameter in kube-apiserver yaml file
+  set as parameter in kube-apiserver yaml file (default is AlwaysAllow)
+
+
+
+-----------------------------------------------------//-----------------------------------------------------------
+
+RBAC 
+
+To create a RBAC we create a Role type resource yaml file with
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+rules:
+
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["list', "get", "create", "update", "delete"]
+
+#Role developer they can only make those actions to pods. To enable more resouces
+#just create por - entries
+
+
+Then we need to link the user to the role. For that we create the RoleBinding type of object.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: devuser-developer-binding
+subjects:
+- kind: User
+  name: dev-user
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: developer
+  apiGorup: rbac.authorization.k8s.io
+
+View roles: kubectl get roles
+            kubectl get rolebindings
+
+More details: kubectl describe role <role>
+              kubectl describe rolebinding <rolebinding>
+
+
+Check Access: kubectl auth can-i create deployments
+              kubectl auth can-i create deployments --as another-user
+
+You can add a resourceNames parameter under rules: to further restrict the access to specific
+resource names
+
+
+
+ 
+
+
