@@ -81,6 +81,37 @@ resource names
 
 
 
- 
+
+
+kubectl api-resources to check all of the resources that we can use.
+--namespaced=true to show resources that are used withing namespaces
+
+==================================================================================
+
+
+Cluster Roles
+
+The same as roles and role bindings but for cluster resources. 
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-admin
+rules:
+
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["list', "get", "create", "update", "delete"]
+
+Next step is lunking the user to the clusterRole
+
+.
+.
+.
+.
+kind: ClusterRoleBinding
+
+Cluster Role works for namespaces as well. 
+
 
 
