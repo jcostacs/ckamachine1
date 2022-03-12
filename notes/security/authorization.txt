@@ -82,7 +82,6 @@ resource names
 
 
 
-
 kubectl api-resources to check all of the resources that we can use.
 --namespaced=true to show resources that are used withing namespaces
 
@@ -103,7 +102,7 @@ rules:
   resources: ["nodes"]
   verbs: ["list', "get", "create", "update", "delete"]
 
-Next step is lunking the user to the clusterRole
+Next step is linking the user to the clusterRole
 
 .
 .
