@@ -1,0 +1,52 @@
+Secure Image Repos
+
+
+image: nginx -> image/repo follows docker image convention
+
+       when only using nginx its actually library/nginx which refers to the user or account name
+
+       library -> dockers default images
+
+
+this images are stored in a registry:
+
+  image: docker.io/library/nginx 
+ 
+  gcr.io is from google
+ 
+  all public
+
+so for a private application, using a private registry/repo is the best practice
+
+
+
+Private Repo
+
+1 - substitue the image with the full path of the image's private registry
+
+2 - to login into the private registry, we create a secret for it
+
+    kubectl create secret docker-registry regcred --docker-server=XXX --docker-username=XXX --docker-password=XXX 
+    
+    --docker-email=xxx
+
+
+3 - Use imagePullSecrets in the containers section to specify the secret
+
+containers: 
+  - name: xxx
+    image: xxxx
+
+imagePullSecrets: 
+ - name: XXX
+
+
+
+
+
+
+
+
+
+
+
