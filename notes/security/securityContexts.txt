@@ -1,0 +1,35 @@
+Security Contexts 
+
+
+
+Its posible to add security parameters to a docker container when
+you run it, such as docker run --user=xxx and even add linux capabilities
+
+
+In k8s you can configure this as well:
+
+Can configure at Container level or Pod level
+
+	- Within Pod level, it acts as global security options for all 
+containers
+	- The container level security overrides the Pod level one
+
+
+
+field for Pod is:
+
+spec: 
+  
+  securityContext:
+    runAsUser: XXX
+
+for container, just move the section to the container spec
+
+    securityContext:
+       runAsUser: XXX
+       capabilities: 
+         add: ["MAC_ADMIN"]
+
+
+kubectl exec ubuntu-sleeper -- whoami ----- will tell you what is the 
+user that is running the container

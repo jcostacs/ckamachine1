@@ -1,0 +1,179 @@
+Network Policies
+
+
+Ingress vs Egress - Types of Traffic
+
+Ingress:  for a Web server, the traffic coming in from
+the user is classied as ingress traffic
+
+
+Egress: for that same Web Server, the egress traffic
+is the requests this web server makes to another api server
+
+Basically, ingress = incoming
+           egress = outgoing
+
+so it depends on the POV 
+
+
+
+Network Policy
+
+
+AllAllow rule that allows automatic communication setup with the rest of
+the resources
+
+
+What if we want to exclude a certain resource to not be exposed to the
+rest of the cluster
+
+For this we use Network Policy - a new k8s resource. We link this network
+policy to a pod, and then we specify on that NP for example:
+
+"Only Allow Ingress traffic from API Pod on Port 3306"
+
+We link the NPs to Pods by using selectors, just like a service to a Pod
+
+
+
+on the Pod yaml:
+
+labels:
+  roles: db
+
+on the NP:
+
+podSelector:
+  matchLabels
+    role: db
+
+
+
+Rules:
+
+for this example: Only Allow Ingress traffic from API Pod on Port 3306"
+
+policyTypes:
+- Ingress
+
+ingress:
+- from:
+  - podSelector:
+      matchLabels:
+        name: api-pod
+  ports:
+  - protocol: TCP
+    port: 3306
+
+
+
+putting everything together will result in:
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy
+spec:
+
+  podSelector:
+    matchLabels
+      role: db
+
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          name: api-pod
+  ports:
+  - protocol: TCP
+    port: 3306
+
+
+
+
+
+Network Policies Advanced
+
+
+1 - create the NP resource and match the labels with the podSelector
+
+2 - Figure out the type of policy (ingress or egress)
+
+3 - Define the specifics of that section (ingress or egress or both!)
+
+
+Use-case for same label pods: (use namespaces)
+.
+.
+.
+ ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          name: api-pod
+      namespaceSelector:
+        matchLabels:
+          name: prod
+
+
+
+Use-case for external back-up server: (we know the IP from the BUPserver)
+.
+.
+.
+ ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          name: api-pod
+      namespaceSelector:
+        matchLabels:
+          name: prod
+	 
+    - ipBlock: #select range of ips to allow the ingress connection
+        cidr: 192.168.5.10/32
+
+
+the array definition "-" represents a single rule with AND logic
+
+different rules are separated by a OR logic
+
+
+
+FOR EGRESS:
+
+policyTypes:
+- Egress
+
+egress:
+  - to:	 
+    - ipBlock: #select range of ips to allow the ingress connection
+        cidr: 192.168.5.10/32
+    - ports:
+      - protocol: TCP
+        port: 80
+
+
+NOTE: 
+
+ also needs to map the kube-dns service ports on the NetworkPolicy
+
+ if it asks to connect to a service, we actually need to link it 
+ to the Pod that is using the service
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
