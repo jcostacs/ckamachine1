@@ -1,0 +1,18 @@
+Container Runtime Interface (CRI)
+
+- Standart that defines how an orchestration solution (like k8s) would
+comunicate with a container runtime like Docker. This is intented to
+allow OSS. When a new container runtime is developed it just needs 
+to follow the CRI guidelines to so that k8s can use it.
+
+
+Container Network Interface (CNI)
+
+- Same as CRI, but for Networks. Networking vendors can simply develop
+their plug in so its readily used by k8s.
+
+Container Storage Interface (CSI)
+
+- Created to support multiple storage solutions. You can write your own
+drivers for storage in k8s. 
+

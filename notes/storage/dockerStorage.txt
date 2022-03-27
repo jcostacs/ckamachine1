@@ -1,0 +1,63 @@
+Docker Storage
+
+
+- Storage Drivers
+- Volume Drivers
+
+Each entry on the Dockerfile represents a different layer. These are called
+image layers.
+
+These layers are created when running the docker build command, these are 
+read-only.
+
+When you run the container, it creates a writable layer called the 
+Container Layer. These are used to store data created by the container.
+It only lives when the container is also live.
+
+
+
+To override data from the container layer on to the image layer we need to
+use volumes. Copy-on-write makes a copy of the file that we are trying to change
+on the container layer.
+
+
+For the default type of mount:
+1 - docker volume create data_volume 
+# a new volume called data_volume is created under the default docker
+# volume directory
+
+2 - docker run -v data_volume:/var/lib/mysql mysql 
+# when we run the container we need to point the copied data from the 
+# image layer to the volume. In other words, we mount the volume inside the 
+# containeirs rw layer
+
+3 - This is will create the new container and it will mount the newly 
+created volume into /var/lib/mysql that is living temporarily in the
+docker container layer.
+So everything that is written on the db when the container is living
+is in fact being stored in the volume created on the docker host.
+
+4 - docker run -v /data/mysql:/var/lib/mysql mysql
+# if we wished to use a volume that is not on the default directory
+# we use Bind Mounting. We just need to specify the full volume path
+# on the docker run command
+
+So,
+2 types of mounts:
+
+-  Volume mount
+-  Bind Mount
+
+Volume mount mounts the volume on the default volumes docker directory.
+
+Bind Mount mounts the volume on a specific path on the docker host.
+
+
+On the OS side, docker uses storage drivers to be able to create this
+layered arch regarding FS. 
+
+
+
+
+
+ 
