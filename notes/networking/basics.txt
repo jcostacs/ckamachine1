@@ -1,0 +1,77 @@
+Networking basics - Linux
+
+
+A switch serves the purpose to connect machines together -> the switch
+creates a network (192.168.1.0) that contains both systems
+
+interface (NIC): ip link command
+
+assigning the hosts IPs to the newly created network we have to
+
+ip addr add 192.168.1.10/24 dev eht0
+
+after this the PCs can now communicate via the switch
+
+
+How to reach other networks? Routing
+
+the router (another server with many network ports) connects 
+2 networks together 
+
+
+Gateway - door to the outside world (internet) 
+
+the systems need to know where this gateway is.
+
+
+route command - it will display the existing routing configurations
+
+To configure the gateway:
+
+ip route add 192.168.2.0/24 via 192.168.1.1
+where
+
+192.168.1.1 - router IP(gateway/door) from system A
+192.168.2.0 - switch network of system C
+
+route will show the route added
+
+
+you also have to specify the other way around on system C routing 
+table (if you want to reach system A from system C) 
+
+router needs to connect to the www - so that is why we create a 
+default gateway. For any network we dont know the route to, use 
+this router as default gateway.
+Any request to any network outside of our existingg network goes 
+through this particular router.
+
+
+How to set up a Linux hosts as a router:
+
+- we need to add 2 entries in the routing table of each endpoint
+
+1 for host A to reach network where C is via host B IP
+1 for host C to reach network where A is via host B IP
+Host B is in both networks 
+
+
+on Linux packets are not forwarded from 1 eth to the other eth
+
+the forwarding is managed by this path /proc/sys/net/ipv4/ip_forward
+
+cat it: 0 default (no forward) 
+
+to persist: /etc/sysctl.conf -> 1 
+
+
+ip link -> list and modify interfaces on the host
+ip addr -> see the ip addresses assigned to those interfaces
+ip addr add -> set up addresses on interfaces 
+route -> routing table
+ip route add -> add routing entries 
+cat /proc/sys/net/ipv4/ip_forward - > checks of the host being
+utilized as router has forwardng betweeen eths enabled
+
+
+ 

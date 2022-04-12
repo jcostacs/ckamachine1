@@ -94,7 +94,8 @@ spec:
 
 Dynamic Provisioning
 
-- To automate volume provisioning, we use Storage Classes
+- To automate volume provisioning (create the actual storage on the end resource),
+we use Storage Classes
 
 you can define a provisioner that can automatically provision storage on the cloud
 and mount it on the pod.
@@ -102,13 +103,29 @@ and mount it on the pod.
 By using StorageClasses we longer need the pv definition file, since the pv
 is automatically created when attaching the SC on the PVC
 
-on PVC:
+
+sc-definition.yaml
+
+only need to add the SC name on PVC definition file:
 
 storageClassName: xxx
 
+then the pod uses the PVC 
 
 
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: storage
 
+provisioner: kubernetes.io/gce-pd
+
+parameters:
+  type:
+  replication-type: 
+
+
+its useful to use different kind of storages pretty quickly
 
 
 

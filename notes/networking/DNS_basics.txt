@@ -1,0 +1,73 @@
+DNS for beginners 
+
+
+cat >> /etc/hosts will allow to set DNS entry (a name for a known IP)
+
+
+Host A doesnt check if the Host B name is actually XX. The /etc/hosts
+path is a source of absolute truth.
+
+You can have as many names as you want for a single IP addr
+
+
+All those entries were moved to a server (DNS server) that manages 
+and updates the entries of IPs vs hostnames. So we point all the hosts
+to connect to the DNS so it figures which actual machine are we 
+trying to connect to
+
+If DNS-IP is 192.168.1.100
+we can specify this entry on the /etc/resolv.conf file 
+nameserver        192.168.1.100
+
+
+
+if there is a mismatch on the /etc/hosts file and on revolv.conf file, 
+it follows the hosts file. That order be changed on /etc/nsswitch.conf
+
+
+for instance, we can point the host to always reach googles DNS server
+8.8.8.8
+
+nameserver 8.8.8.8
+
+
+
+. -> Root
+
+.com .net .edu .org -> top level domain
+
+Top level domain Name -> .com google
+
+Subdomain -> wwww maps drive
+
+
+
+When the DNS does not know the name it asks the next DNS server (per 
+hierarchy of domains)
+
+so by querying apps.google.com
+1 - Org DNS (does not know, and asks)
+2 - Root DNS
+3 - .com DNS
+4 - Google DNS
+
+
+on /etc/resolv.conf:
+
+search      mycompany.com prod.mycompany.com
+
+The search appends a domain name to the subdomain you tried to reach
+for. 
+ping web will try to web.mycompany.com
+can have multiple searches
+
+
+nslookup to query a hostname from a DNS server. But nslookup does not
+consider entries in the local /etc/hosts file. Only queries the DNS
+server.
+
+dig as well 
+
+
+
+
