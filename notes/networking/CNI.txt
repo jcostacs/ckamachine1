@@ -1,0 +1,34 @@
+Container Network Interface
+
+All the previous steps made to set up network ns is conventional
+for all runtimes - Creating the CNI, the standart approach
+
+
+So a sigle piece of code is in charge of doing all these steps,
+its called bridge. it does all required tasks to get a container
+to talk to a bridge network.
+
+
+You can run the program by using: bridge
+
+
+You can add a container to a particular netns and the program
+will take care of every step to do that.
+
+
+This bridge program is a plugin for CNI basically. the CNI states
+how these programs must be developed and how the runtimes should
+handle them.
+
+
+
+for k8s using docker containers, it creates the containers with
+the none network and then manually attaches the cotnainer to a netns
+with a plugin.
+
+
+ 
+
+
+
+

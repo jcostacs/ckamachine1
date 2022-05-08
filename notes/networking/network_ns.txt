@@ -1,0 +1,55 @@
+Network NS
+
+
+You can isolate processes from communicating with other entities by using network
+namespaces. A process within a NNS is only concerned/sees what is within that NNS.
+
+When we create the container, we create it with the NNS. That way the container
+does not know nothing about network info on its host. Has its own routing tables
+and network interfaces.
+
+To create a NNS on a linux host:
+
+ip netns add red
+ip netns add blue
+
+
+To list the interfaces:
+
+ip link -> host
+
+ip netns exec red ip link -> NNS
+ip -n red link -> NNS
+
+
+arp - list the addresses from IP to MAC
+ip netns exec red arp -> list the addresses from IP to MAC of a network NS
+
+
+
+How to establish connectivity on two namespaces via a virtual NIC: 
+
+ip link add veth-red type veth peer name veth-blue -> creates the pipe 
+
+ip link set veth-red netns red -> attaches each veth to the correct NS
+ip link set veth-blue netns blue
+
+ip -n red addr add 192.168.15.1 dev veth-red -> assign an IP to the Namespace
+ip -n blue addr add 192.168.15.2 dev veth-blue
+
+
+ip -n red link set veth-red up -> makes links up
+ip -n blue link set veth-blue up
+
+
+To connect all these namespaces together in a virtual network we need a virtual switch.
+These virtual switches appear as just another network interface from the host perspective
+
+Now we just need to connect all the NS to the bridge (virtual switch)
+
+The host acts as a gateway to the outside world - due to the fact that has both the 
+virtual bridge for the NS to connect to and the eth that connects to the rest of the
+internet
+
+
+

@@ -1,0 +1,38 @@
+Docker networks
+
+None network
+
+docker run --network none nginx -> the container cant reach anything 
+on the outside or other containers other and the same vice versa
+
+
+Host network
+
+docker run --network host nginx -> the container uses the host network 
+interface e. g. if you deploy an app on port 80 on the container then the 
+app is also available on the port 80 on the host
+
+
+Bridge network
+
+docker run nginx -> internal private network is created where the containers
+are connected to. Most interesting one. 
+
+
+When docker is installed on a host it creates its on private network
+called Bridge. 
+docker network ls 
+
+
+docker0 is the NI created on the host 
+
+container and netns is the same thing. this netns is created by docker
+for that container
+
+Docker creates a pipe with 2 interfaces on each end. One for the netns
+and other for the bridge
+
+
+docker run -p 8080:80 nginx will forward all traffic coming to the host
+on port 8080 to port 80 on the netns/container
+

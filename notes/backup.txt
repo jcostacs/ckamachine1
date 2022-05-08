@@ -19,7 +19,7 @@ location dir for data source --data-dir
 
 can also snapshot etc db
 
-1 - etcdcrl \ snapshot save /destination path/
+1 - etcdctl \ snapshot save /destination path/
 
 2 - ls
 
