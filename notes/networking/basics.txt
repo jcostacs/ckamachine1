@@ -73,5 +73,10 @@ ip route add -> add routing entries
 cat /proc/sys/net/ipv4/ip_forward - > checks of the host being
 utilized as router has forwardng betweeen eths enabled
 
+netstat -> The netstat command generates displays that show network status 
+and protocol statistics. You can display the status of TCP and UDP 
+endpoints in table format, routing table information, and interface 
+information
+
 
  

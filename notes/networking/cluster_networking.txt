@@ -1,0 +1,25 @@
+Cluster Networking
+
+Each node must at least have 1 interface connected to a network
+Each interface must have an address configured
+
+
+Ports:
+
+master - accept connections on 6443 for the api server
+       - kubelet 10250
+       - kube scheduler 10251
+       - kube controller manager 10252
+       - etcd 2379
+       - etcd 2380 when multiple master nodes need to communicate
+
+worker - kubelet listens on 10250 
+       - services expose on port rage 30000-32767
+
+
+deploy CNI plugin in cluster: 
+https://v1-22.docs.kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#steps-for-the-first-control-plane-node
+step 2
+
+
+

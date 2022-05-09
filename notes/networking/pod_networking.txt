@@ -1,0 +1,41 @@
+Pod Networking
+
+
+On top of the cluster network we also have another layer of
+networking for pods to communicate to each other
+
+Model:
+- Every pod should have an IP address
+- Every pod should be able to ocmmunciate with every other
+pod in the same node
+- Every pod should be able to communicate with every other
+pod on other nodes without NAT
+
+
+Following the netns method:
+- We create bridge networks on each node
+- then we bring them up
+- assign IPs to bridge interfaces (each bridge is its own 
+private subnet)
+- set IP address for the bridge interface
+- script to auto attach the newly created container to the
+bridge
+
+
+How to reach other pods on other nodes:
+- add route on node1 routing table to reach podIP on node2 via
+node2 host network interface
+# ip route add 10.244.2.2(pod to be reached) via 192.168.1.12
+(node2)
+
+- to do this to all pods and nodes we should have a router
+to point all hosts to use the router has the default network
+
+- This way we create a big subnet netowrk that connects all
+bridges together
+
+
+CNI mandates how k8s should call the net-script script as soon
+as pod is created. CNI tells how the script should look like
+
+
