@@ -1,0 +1,14 @@
+WeaveWorks Weave CNI plugin
+
+
+Deployed as a daemonSet (agent) in order to have easy and automatic
+routing (and not only) to have effective k8s networking.
+
+
+
+
+ps -ef | grep kubelet -> to know the networking plugin being used
+
+/opt/cni/bin -> to look at the available plugins bins for CNI
+
+/etc/cni/net.d/ -> look at the used plugin

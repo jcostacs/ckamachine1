@@ -28,6 +28,18 @@ with a plugin.
 
 
  
+--------------------------------------------------------------------------
+
+CNI defines the responsability of the Container Runtime:
+- Create Netns
+- Identify network the container much attach to
+- Container runtime must invoke the bridge when container is ADDed
+- Container runtime must invoke the bridge when container is DELeted
+- JSON format of the Network configuration
+
+
+CNI plugin is specified on the kubelet service on each node in the cluster
+
 
 
 
