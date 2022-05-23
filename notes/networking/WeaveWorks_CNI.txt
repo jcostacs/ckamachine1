@@ -32,5 +32,61 @@ Still needs to be called on the script
 Different networking solutions providers will do this on its own way, 
 like weaveworks:
 
-- By default allocates 10.32.0.0/12 for IP assignment on the netire network
+- By default allocates 10.32.0.0/12 for IP assignment on the entire network
+
+
+
+IMPORTANT
+
+Q: Check network solution on cluster:
+
+A: we check the parameters on kubelet
+   ps aux | grep kubelet
+
+   we check for the network_plugin=cni
+   
+   /etc/cni/net.d/FILE
+
+
+
+Q: Identify the bridge created by weave
+
+A: ip link
+
+   or 
+
+   ssh intonode
+   ip link --- look for weave
+
+
+
+
+Q: IP range
+
+A: look at logs on the weave pods
+   kubectl logs POD_WEAVE_NAME CONTAINER_NAME
+   look for range
+
+
+
+Q: Default gateway for pods on X node
+
+A: test by running pod
+   k run busybox --image=busybox --dry-run=client -o yaml -- sleep 1000 > asda.yaml
+   insert under spec:
+                  nodeName: node01
+   apply the yaml
+
+   go into the pod to list the routing table
+   k exec busybox -- ip route 
+   look at default gateway
+
+
+   
+
+
+
+
+
+
 
