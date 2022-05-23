@@ -12,3 +12,25 @@ ps -ef | grep kubelet -> to know the networking plugin being used
 /opt/cni/bin -> to look at the available plugins bins for CNI
 
 /etc/cni/net.d/ -> look at the used plugin
+
+
+-----------------------------------------------------------------------------------------------------
+
+
+IPAM - IP Address Management
+
+How are the virtual bridge networks in the nodes assigned an IP subnet
+How are the pods assigned an IP 
+
+CNI must manage IP address assignment to pods
+
+CNI comes with two bulti in plugins to manage the IPS:
+   - host-local plugin
+   - DHCP
+Still needs to be called on the script
+
+Different networking solutions providers will do this on its own way, 
+like weaveworks:
+
+- By default allocates 10.32.0.0/12 for IP assignment on the netire network
+
