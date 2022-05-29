@@ -1,0 +1,23 @@
+Service Networking
+
+- services are cluster-wide (they are not node-exclusive) - ClusterIP
+
+- kube-proxy takes care of the services (which dont really exist. THey are just
+a virtual object, they dont have any process running nor netowrking interface)
+
+- kube-proxy creates forwarding rules for that service. (iptables)
+
+- iptables -L -t nat | grep service-name
+
+- cat /var/log/kube-proxy.log
+
+
+
+To check the IP range for pods you can check the logs for the weave pod (logs of the container):
+
+kubectl -n xxx logs xxxx -c CONTAINER_NAME
+
+
+
+Check if kube-proxy is using iptables or other via the logs of the kube-proxy pod
+
