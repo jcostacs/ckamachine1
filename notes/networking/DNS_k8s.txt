@@ -1,0 +1,47 @@
+- DNS resolution in the cluster (internal) - it helps pods resolve IPs/Names
+inside the cluster
+
+
+SERVICES:
+
+- Whenever a service is created, a record on the DNS server is created 
+that maps the hostname and the IP address of the same
+
+
+- If not on the same NS, you cannot simply use the name of the service 
+but curl http://<service_name>.<ns>
+
+- Additionally to hostname,NS and IP address, the DNS entry also has the 
+service type and the root. Basically all the services are group together
+on another sub-domain called svc (for example). And then all the services
+and pods are grouped together under a root domain.
+
+- So you can access the service with the full concatenation of the domains
+
+
+
+PODS:
+
+- records for pods are not enabled by default
+
+- hostname is the IP but instead of dots (.), dashes (-) are used
+
+- difference is the Type domain - instead of svc it's type pod
+
+
+-----------------------------------------------------------------
+
+Normally, if we wnated to inform a pod how to reach another pod, we would
+add an entry on /etc/hosts with the name and IP of the pod to reach.
+
+To avoid having entries for every pod on the cluster, k8s uses a DNS server
+with that information. Hence, on /etc/resolv.conf on the pod we just need 
+to have the name of the DNS server with its IP.
+
+CoreDNS - DNS server deployed as a pod on the control-plane NS
+
+coreDNS uses a Corefile found in /etc/coredns with plugins definitions and
+configuration.
+ 
+
+
