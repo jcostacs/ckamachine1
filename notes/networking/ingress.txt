@@ -1,0 +1,126 @@
+------
+
+INGRESS
+
+
+- SSL needs to be implemented on a low maintenance layer
+
+
+- Ingress can be tought of as a layer 7 resource, basically covering all the load balancing
+configuration, authenthication, URL routing configs and security.
+
+
+- Still need to expose the Ingress to be acessible outside the cluster
+
+
+1st - Deploy lbsolution (nginx,haproxy,trefik etc) - Ingress Controller
+
+2nd - Configure (where you configure the routing of to the services) - Ingress Resources
+
+---------
+
+Ingress Controller
+
+- GCE and nginx supported by the community 
+
+1st - deploy the nginx controller deployment
+    - it has various of config options (passed as configMap)
+
+    - Specify on the arguments to start the controller - /nginx-ingress-controller
+    - Pass in as args the configMap
+
+    - Specify env variables with the pod_name and pod_ns where it should be deployed to
+    - specify the ports to be used http and https
+
+We then need a service to expose the controller to pods (Nodeport)
+
+Also need a ServiceAccount with right permissions (Roles and Role Bindings)
+
+-----------
+
+Ingress Resource
+
+Rules to apply to the ingress controller that configures it.
+
+- k8s resource: ingress-wear.yaml
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-wear
+spec:
+  backend:
+    serviceName: wear-service
+    servicePort: 80 
+
+Routes all incoming traffic directly to the wear-service that is the connected to the 
+wear pod
+
+We then create Rules based on the domain (for example) to configure where it connects 
+to.
+
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-wear-watch
+spec:
+  backend:
+    serviceName: ingress-wear-watch
+    servicePort: 80 
+  . 
+  . 
+  .
+
+
+1 Rule - 2 paths
+
+  rules: 
+  - http:
+      paths:
+      - path: /wear
+        backend:
+          serviceName: wear-service
+          servicePort: 80
+      - path: /watch
+        backend:
+          serviceName: watch-service
+          servicePort: 80
+
+
+
+2 Rules - 1 Path
+
+
+  rules: 
+  - host: wear.my-online-store.com
+    http:
+      paths:
+      
+      - backend:
+          serviceName: wear-service
+          servicePort: 80
+
+   - host: watch.my-online-store.com
+     http:
+       paths: 
+       - backend:
+           serviceName: watch-service
+           servicePort: 80
+
+  
+Format - kubectl create ingress <ingress-name> --rule="host/path=service:port"
+
+Example - kubectl create ingress ingress-test --rule="wear.my-online-store.com/wear*=wear-service:80"
+
+
+
+
+
+
+
+
+
+
+
+
