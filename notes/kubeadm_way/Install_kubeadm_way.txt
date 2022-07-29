@@ -1,0 +1,32 @@
+Kubeadm tool to bootstrap a k8s cluster
+
+
+Steps:
+
+1 - multiple systems/VMs for each node - 1 as master and the others as workers
+
+2 - install a CRI - docker 
+
+3 - install kubeadm on all the nodes
+
+4 - Initialize the master server - all the required components and resources are installed and
+configured on the server
+
+5 - Deploy the POD network
+
+6 - join the worker nodes
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+Initializing the master node:
+
+kubeadm init --pod-network-cidr= (if we need the IP range) --apiserver-advertise-address=(IP address
+of the master)
+
+- deploy CNI - weave/calico/etc
+
+
+- copy cmd given from kubeinit into the worker nodes

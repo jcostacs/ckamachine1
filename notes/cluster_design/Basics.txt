@@ -1,0 +1,114 @@
+When designing the cluster, ask:
+
+- Purpose
+	- Education: minikube, single node cluster with kubeadm
+
+	- Dev: multi-node cluster with a Single master and multiple worker - kubeadm
+
+	- Prod: HA multi node cluster with multiple masters
+
+
+
+- Cloud/On prem
+	- kubeadm for on-prem
+	
+
+- Workloads
+	- How many
+	- What kind
+	- App Resource requirements
+	- Traffic
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+
+Choosing the Infra
+
+minikube - deploys the VM for the components to run on
+kubeadm - expects the VM to be ready
+
+Turnkey solutions: 
+	- we provision the VMs
+	- we configure the VMs
+	- we maintain VMs
+	- EG: k8s on AWS using KOPS
+
+Solutions: OpenShift/Cloud Foundry/VMware Cloud PKS/Vagrant
+
+
+Hostes solutions (managed):
+	- k8s as a Service
+	- Provider provisions the VMs
+	- provider installs k8s
+	- provider maintains VMs
+	- EG: GKE
+
+Solutions: GKE, openShift Online, AKS, EKS
+
+
+
+Our Choice: Local host with Virtual box
+
+3 nodes: 1 master/2 worker, to be deployed on a laptop with Virtual Box
+
+
+-----------------------------------------------------------------------------------------------
+
+High Availability
+
+- in a HA configuration, we have redundancy across all components on the cluster.
+
+- focus on the master
+
+- with 2 masters, how is the load shared?
+
+	- For the API server, both can alive at the same time
+	- LB to split the traffic between the API servers
+	- Scheduler and controller manager: active and stand-by. Choosing the active with the 
+    --leder-elect true
+	- Etcd: Stacked topology is when etcd and the control plane components are on the same master
+	node. External ETCD topology uses etcd on a outside server
+
+
+
+
+
+----------------------------------------------------------------------------------------------
+
+ETCD in HA
+
+
+- possible to have your datastore across multiple servers - hence the distributed feauture
+
+- READ/WRITE for any instance - the same copy is the available on all instances
+
+- Only 1 of the instances has WRITE permisisons. There is a leader instance that processes 
+the write and then shares the new write on the rest of the instances - RAFT algorithm to select the leader.
+
+- Quorum (minimum number of nodes for a cluster to make a sucessful write):
+N/2 + 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
