@@ -1,0 +1,14 @@
+What to check
+
+
+- Check accessibility:
+	- check if web-server is accessible on the IP of the NodePort using cURL
+
+- Check Service Status:
+	- describe service to see if it has discovered endpoints for the target pod
+	- if not, check pod-service selectors
+
+- Check POD:
+	- check if it's in running state
+	- describe the pod to look at events
+	- check logs ( -f to watch)
