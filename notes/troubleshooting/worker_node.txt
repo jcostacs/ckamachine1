@@ -1,0 +1,16 @@
+Worker node
+
+
+- Check node status
+	- If not ready - describe node
+
+
+- Check kubelet status
+
+- Check kubelet certs
+
+
+
+do journalctl -u kubelet -f to see the service logs
+
+kubelet process files are within /var/lib/kubelet path

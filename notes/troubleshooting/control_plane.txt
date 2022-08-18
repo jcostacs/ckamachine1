@@ -1,0 +1,29 @@
+Master node troubleshooting
+
+
+- Check Node Status:
+	- kubectl get nodes
+	- kubectl get pods
+
+
+- Check controlplane pods (if deployed as pods):
+	- check pods
+
+
+- check controlpalne services (if deployed as services):
+	- check services:
+		- service kube-apiserver status
+		- service kube-controller-manager status
+		- service kube-scheduler status
+
+		- service kubelet status
+		- service kube-proxy status
+
+
+- Check service logs:
+	- kubectl logs k8s-api-master -n kube-system
+
+if service:
+	- sudo journalctl -u kube-apiserver
+
+
