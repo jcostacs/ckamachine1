@@ -1,0 +1,17 @@
+1 - Already have the user.csr - first we need to create the CSR within k8s (look for CSR)
+
+  		- get the csr and encode to base64 to edit the csr.yaml file with that encoded csr
+
+      - create the csr yaml
+
+2 - get that approved ( so we have the user in the system)
+
+3 - Create role and role binding with the previliges 
+
+
+
+4 - verify the access
+
+      - k auth can-i something something -n xxx --as user 
+
+

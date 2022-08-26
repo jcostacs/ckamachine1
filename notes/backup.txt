@@ -42,6 +42,14 @@ RESTORE
 6 - service kube-apiserver start
 
 
+ETCDCTL_API=3 etcdctl snapshot save --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key 
+--endpoints=127.0.0.1:2379 /opt/etcd-backup.db
+
+To restore we need to use the --data-dir as the new path to be created and the /destination-path-frombackup/ as the path we saved the backup on. Then just change
+the volumes on the etcd yaml file to use the new path --data-dir
+
+
+
 some extra config might be needed
 TLS needs --cacert
 --cacert
@@ -50,3 +58,6 @@ TLS needs --cacert
 --cert -> sv cert
 
 export ETCDCTL_API=3 -> need to make use of etcdctl depending on the version of the etcd db
+
+
+
